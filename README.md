@@ -1,61 +1,72 @@
-# :package_description
+# filament-tab-translatable
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/kaantanis/filament-tab-translatable.svg?style=flat-square)](https://packagist.org/packages/kaantanis/filament-tab-translatable)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/kaantanis/filament-tab-translatable/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/kaantanis/filament-tab-translatable/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/kaantanis/filament-tab-translatable/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/kaantanis/filament-tab-translatable/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/kaantanis/filament-tab-translatable.svg?style=flat-square)](https://packagist.org/packages/kaantanis/filament-tab-translatable)
 
-<!--delete-->
----
-This repo can be used to scaffold a Filament plugin. Follow these steps to get started:
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Make something great!
----
-<!--/delete-->
+This package may not be as comprehensive and useful as a Spatie package. 
+The purpose of this package is to store array data here if certain database 
+columns are in JSON format. While doing this, the Tab component 
+of Filament is used. A given key automatically gets separated 
+according to languages. So, if the "title" key is sent, it 
+returns with the existing languages as follows via tabs: "title.en, title.tr."
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+![Screenshot](https://raw.githubusercontent.com/KaanTanis/filament-tab-translatable/main/art/screen.png)
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
+composer require kaantanis/filament-tab-translatable
 ```
 
-You can publish and run the migrations with:
+You can publish the config file with: (If not automatically published)
 
 ```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
+php artisan vendor:publish --tag="filament-tab-translatable-config"
 ```
 
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
-```
+You can add new languages to the config file
 
 This is the contents of the published config file:
 
 ```php
 return [
+    'default' => 'en', // for first tab
+
+    // Detailed for your front-end and tabs
+    'list' => [
+        'tr' => [
+            'name' => 'Turkish',
+            'native_name' => 'Türkçe',
+            'code_upper' => 'TR',
+            'code_lower' => 'tr',
+            'flag' => 'tr',
+        ],
+
+        'en' => [
+            'name' => 'English',
+            'native_name' => 'English',
+            'code_upper' => 'EN',
+            'code_lower' => 'en',
+            'flag' => 'gb',
+        ],
+    ]
 ];
 ```
 
 ## Usage
 
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+FilamentTabTranslatable::components([
+    Forms\Components\TextInput::make('title'),
+    Forms\Components\TextInput::make('description'),
+], 'column'),
+
+// The second parameter is the column name. Not required if the column name is the same as the key.
 ```
 
 ## Testing
@@ -78,7 +89,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Kaan](https://github.com/KaanTanis)
 - [All Contributors](../../contributors)
 
 ## License

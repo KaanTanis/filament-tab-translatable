@@ -1,15 +1,15 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace KaanTanis\FilamentTabTranslatable;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class SkeletonPlugin implements Plugin
+class FilamentTabTranslatablePlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'skeleton';
+        return 'filament-tab-translatable';
     }
 
     public function register(Panel $panel): void
