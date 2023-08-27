@@ -30,7 +30,7 @@ trait HasTranslations
         }
 
         foreach ($keys as $subKey) {
-            if (!isset($value[$subKey])) {
+            if (! isset($value[$subKey])) {
                 return null;
             }
 
