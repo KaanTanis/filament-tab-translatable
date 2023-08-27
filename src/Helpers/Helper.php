@@ -4,9 +4,6 @@ namespace KaanTanis\FilamentTabTranslatable\Helpers;
 
 class Helper
 {
-    /**
-     * @return array
-     */
     public static function getLangCodes(): array
     {
         $langs = config('filament-tab-translatable.list');
