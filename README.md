@@ -62,12 +62,30 @@ return [
 
 ```php
 FilamentTabTranslatable::components([
-    Forms\Components\TextInput::make('title'),
+    Forms\Components\TextInput::make('title'), 
     Forms\Components\TextInput::make('description'),
 ], 'column'),
 
+// IMPORTANT: Make sure field type is json in database and don't forget $casts array in model
 // The second parameter is the column name. Not required if the column name is the same as the key.
 ```
+
+## Example
+
+```php
+$post->translate('column.title', 'en'); // returns title of en language
+$post->translate('column.title', 'tr'); // returns title of tr language
+$post->translate('column.title'); // returns title of default language
+
+$post->translate('description'); // not nested
+```
+
+# Developer notes
+This package, as I mentioned before, is not as comprehensive as Spatie and 
+most likely has some issues. I will continue to develop this package and make 
+it better, and during this process, my friends who would like to support 
+the development of this package can contribute without hesitation. 
+Filament needs a package like this. Thank you.
 
 ## Testing
 
