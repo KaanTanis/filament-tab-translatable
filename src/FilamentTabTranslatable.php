@@ -3,18 +3,12 @@
 namespace KaanTanis\FilamentTabTranslatable;
 
 use Filament\Forms\Components\Tabs;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class FilamentTabTranslatable
 {
-    public static string|null $column = null;
+    public static ?string $column = null;
 
-    /**
-     * @param string|null $column
-     * @param array $components
-     * @return Tabs
-     */
     public static function components(array $components, string $column = null): Tabs
     {
         self::$column = $column ? $column . '.' : $column;
@@ -23,10 +17,6 @@ class FilamentTabTranslatable
             ->tabs(self::getTabs($components));
     }
 
-    /**
-     * @param $components
-     * @return array
-     */
     public static function getTabs($components): array
     {
         $languages = Helpers\Helper::getLangCodes();
@@ -35,16 +25,11 @@ class FilamentTabTranslatable
 
         foreach ($languages as $language) {
             $tabs[] = self::makeTab($language, $components);
-        };
+        }
 
         return $tabs;
     }
 
-    /**
-     * @param $language
-     * @param $component
-     * @return Tabs\Tab
-     */
     public static function makeTab($language, $component): Tabs\Tab
     {
         $manipulatedComponents = [];

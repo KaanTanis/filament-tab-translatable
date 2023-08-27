@@ -19,5 +19,5 @@ return [
             'code_lower' => 'en',
             'flag' => 'gb',
         ],
-    ]
+    ],
 ];
