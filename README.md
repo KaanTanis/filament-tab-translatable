@@ -73,6 +73,24 @@ FilamentTabTranslatable::components([
 ## Example
 
 ```php
+// Open Your Model and add trait
+use KaanTanis\FilamentTabTranslatable\Traits\HasTranslations;
+
+class Post extends Model
+{
+    use HasTranslations;
+
+    protected $guarded = [];
+
+    protected $casts = [
+        'columnName' => 'json',
+    ];
+}
+
+// You ready to go
+```
+
+```php
 $post->translate('columnName.title', 'en'); // returns title of en language
 $post->translate('columnName.title', 'tr'); // returns title of tr language
 $post->translate('columnName.title'); // returns title of default language
