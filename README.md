@@ -64,7 +64,7 @@ return [
 FilamentTabTranslatable::components([
     Forms\Components\TextInput::make('title'), 
     Forms\Components\TextInput::make('description'),
-], 'columnName'), // columnName for nested
+], 'columnName'), // columnName for nested, not required if you want to use same key
 
 // IMPORTANT: Make sure field type is json in database and don't forget $casts array in model
 // The second parameter is the column name. Not required if the column name is the same as the key.
@@ -93,7 +93,7 @@ class Post extends Model
 ```php
 $post->translate('columnName.title', 'en'); // returns title of en language
 $post->translate('columnName.title', 'tr'); // returns title of tr language
-$post->translate('columnName.title'); // returns title of default language
+$post->translate('columnName.title'); // returns title of app()->getLocale() language
 
 // if second parameter is not given, it returns directly by key
 $post->translate('description'); // not nested
