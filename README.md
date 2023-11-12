@@ -37,7 +37,10 @@ This is the contents of the published config file:
 return [
     'default' => 'en', // for first tab
 
-    // Detailed for your front-end and tabs
+    'laravellocalization' => false, // if you use mcamara/laravel-localization package
+
+    'tabs-type' => 'code', // code or name (code: tr, en, name: Türkçe, English) default: code
+
     'list' => [
         'tr' => [
             'name' => 'Turkish',
@@ -54,20 +57,36 @@ return [
             'code_lower' => 'en',
             'flag' => 'gb',
         ],
-    ]
+    ],
 ];
 ```
 
 ## Usage
 
 ```php
-FilamentTabTranslatable::components([
-    Forms\Components\TextInput::make('title'), 
-    Forms\Components\TextInput::make('description'),
-], 'columnName'), // columnName for nested, not required if you want to use same key
+FilamentTabTranslatable::make()
+    ->general([
+        TextInput::make('category')
+            ->required(),
+        FileUpload::make('image')
+            ->image()
+            ->directory('posts')
+            ->required(),
+    ])
+    ->translations([
+        TextInput::make('title')
+            ->required(),
+        TextInput::make('slug')
+            ->required(),
+        Textarea::make('body')
+            ->required(),
+    ], 'columnName')
+    ->render() // columnName for nested, not required if you want to use same key
 
-// IMPORTANT: Make sure field type is json in database and don't forget $casts array in model
-// The second parameter is the column name. Not required if the column name is the same as the key.
+// IMPORTANT: render() method is required for render the component
+// general() method is for non-translated columns
+// IMPORTANT: Make sure field type is json in database 
+// The second parameter 'columnName' is only for translated columns. Not required if the column name is the same as the key.
 ```
 
 ## Example
@@ -82,15 +101,20 @@ class Post extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'columnName' => 'json',
-    ];
+    public $translatable = ['title', 'body', 'slug'];
 }
 
 // You ready to go
 ```
 
 ```php
+
+// You can use it like normal attributes in your blade files
+
+$post->title; // returns title of app()->getLocale() language
+
+// if you want to get specific language
+
 $post->translate('columnName.title', 'en'); // returns title of en language
 $post->translate('columnName.title', 'tr'); // returns title of tr language
 $post->translate('columnName.title'); // returns title of app()->getLocale() language
