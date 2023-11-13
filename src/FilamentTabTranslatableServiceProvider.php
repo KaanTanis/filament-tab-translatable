@@ -26,6 +26,8 @@ class FilamentTabTranslatableServiceProvider extends PackageServiceProvider
                     ->askToStarRepoOnGitHub('kaantanis/filament-tab-translatable');
             });
 
+        $package->hasTranslations();
+        
         $configFileName = $package->shortName();
 
         if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {

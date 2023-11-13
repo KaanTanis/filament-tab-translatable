@@ -7,81 +7,49 @@ use Illuminate\Support\Str;
 
 class FilamentTabTranslatable
 {
-    public static ?string $column = null;
+    public ?string $column = null;
 
-    public static ?array $translatedTabs = [];
+    public ?array $translatableTabs = [];
 
-    public static ?array $generalTabs = [];
+    public ?array $untranslatableTabs = [];
 
-    public static function make(string $name = null)
+    public static function make()
     {
-        return new static($name);
+        return (new static);
     }
 
-    public function general(array $components)
+    /** Translatable fields */
+    public function translatable(array $components, string $column = null)
     {
-        self::$generalTabs = self::getGeneralTabs($components);
+        $this->column = $column ? $column . '.' : $column;
+
+        $this->translatableTabs = $this->getTranslatableTabs($components);
 
         return $this;
     }
 
-    public static function getGeneralTabs($components): array
-    {
-        $tabs[] = self::makeGeneralTab($components);
-
-        return $tabs;
-    }
-
-    public static function makeGeneralTab($components)
-    {
-        $manipulatedComponents = [];
-
-        foreach ($components as $item) {
-            $manipulatedItem = clone $item;
-            $manipulatedItem->name($item->getName())
-                ->label($item->getLabel())
-                ->statePath($item->getName());
-
-            $manipulatedComponents[] = $manipulatedItem;
-
-            $tab_name = 'General';
-        }
-
-        return Tabs\Tab::make($tab_name)
-            ->schema($manipulatedComponents);
-    }
-
-    public function translations(array $components, string $column = null)
-    {
-        self::$column = $column ? $column . '.' : $column;
-
-        self::$translatedTabs = self::getTranslationsTabs($components);
-
-        return $this;
-    }
-
-    public static function getTranslationsTabs($components): array
+    public function getTranslatableTabs($components): array
     {
         $languages = Helpers\Helper::getLangCodes();
 
         $tabs = [];
 
         foreach ($languages as $language) {
-            $tabs[] = self::makeTranslationsTab($language, $components);
+            $tabs[] = $this->makeTranslatableTab($language, $components);
         }
 
         return $tabs;
     }
 
-    public static function makeTranslationsTab($language, $component): Tabs\Tab
+    public function makeTranslatableTab($language, $component): Tabs\Tab
     {
         $manipulatedComponents = [];
 
         foreach ($component as $item) {
             $manipulatedItem = clone $item;
-            $manipulatedItem->name(self::$column . $item->getName() . '.' . $language)
+            $manipulatedItem->name($this->column . $item->getName() . '.' . $language)
                 ->label($item->getLabel() . ' (' . Str::upper($language) . ')')
-                ->statePath(self::$column . $item->getName() . '.' . $language);
+                ->statePath($this->column . $item->getName() . '.' . $language);
 
             $manipulatedComponents[] = $manipulatedItem;
 
@@ -98,9 +66,43 @@ class FilamentTabTranslatable
             ->schema($manipulatedComponents);
     }
 
+    /** Untranslatable fields */
+    public function untranslatable(array $components)
+    {
+        $this->untranslatableTabs = $this->getUntranslatableTabs($components);
+
+        return $this;
+    }
+
+    public function getUntranslatableTabs($components): array
+    {
+        $tabs[] = $this->makeUntranslatableTab($components);
+
+        return $tabs;
+    }
+
+    public static function makeUntranslatableTab($components)
+    {
+        $manipulatedComponents = [];
+
+        foreach ($components as $item) {
+            $manipulatedItem = clone $item;
+            $manipulatedItem->name($item->getName())
+                ->label($item->getLabel())
+                ->statePath($item->getName());
+
+            $manipulatedComponents[] = $manipulatedItem;
+
+            $tab_name = __('tab_translatable.untranslatable');
+        }
+
+        return Tabs\Tab::make($tab_name)
+            ->schema($manipulatedComponents);
+    }
+
     public function render(): Tabs
     {
         return Tabs::make('tabs')
-            ->schema(array_merge(self::$generalTabs, self::$translatedTabs));
+            ->schema(array_merge($this->untranslatableTabs, $this->translatableTabs));
     }
 }
