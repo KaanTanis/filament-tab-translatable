@@ -41,11 +41,11 @@ class FilamentTabTranslatable
         return $tabs;
     }
 
-    public function makeTranslatableTab($language, $component): Tabs\Tab
+    public function makeTranslatableTab($language, $components): Tabs\Tab
     {
         $manipulatedComponents = [];
 
-        foreach ($component as $item) {
+        foreach ($components as $item) {
             $manipulatedItem = clone $item;
             $manipulatedItem->name($this->column . $item->getName() . '.' . $language)
                 ->label($item->getLabel() . ' (' . Str::upper($language) . ')')
