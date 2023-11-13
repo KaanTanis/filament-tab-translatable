@@ -15,7 +15,7 @@ trait HasTranslations
 
     public function getAttributeValue($key): mixed
     {
-        if (!$this->isTranslatableAttribute($key)) {
+        if (! $this->isTranslatableAttribute($key)) {
             return parent::getAttributeValue($key);
         }
 

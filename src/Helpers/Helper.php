@@ -1,11 +1,11 @@
 <?php
 
 namespace KaanTanis\FilamentTabTranslatable\Helpers;
+
 use Illuminate\Support\Str;
 
 class Helper
 {
-
     public static function getLangs(): array
     {
         $langs = [];

@@ -13,7 +13,7 @@ class FilamentTabTranslatable
 
     public static ?array $generalTabs = [];
 
-    public static function make(string|null $name = null)
+    public static function make(string $name = null)
     {
         return new static($name);
     }
@@ -101,6 +101,6 @@ class FilamentTabTranslatable
     public function render(): Tabs
     {
         return Tabs::make('tabs')
-        ->schema(array_merge(self::$generalTabs, self::$translatedTabs));
+            ->schema(array_merge(self::$generalTabs, self::$translatedTabs));
     }
 }
