@@ -5,7 +5,7 @@ return [
 
     'laravellocalization' => false, // if you use mcamara/laravel-localization package
 
-    'tabs-type' => 'name', // code or name
+    'tab-type' => 'name', // code or name
 
     'list' => [
         'tr' => [

@@ -7,11 +7,11 @@ use Illuminate\Support\Str;
 
 class FilamentTabTranslatable
 {
-    public ?string $column = null;
+    protected ?string $column = null;
 
-    public ?array $translatableTabs = [];
+    protected ?array $translatableTabs = [];
 
-    public ?array $untranslatableTabs = [];
+    protected ?array $untranslatableTabs = [];
 
     public static function make()
     {
@@ -28,7 +28,7 @@ class FilamentTabTranslatable
         return $this;
     }
 
-    public function getTranslatableTabs($components): array
+    protected function getTranslatableTabs($components): array
     {
         $languages = Helpers\Helper::getLangCodes();
 
@@ -41,7 +41,7 @@ class FilamentTabTranslatable
         return $tabs;
     }
 
-    public function makeTranslatableTab($language, $components): Tabs\Tab
+    protected function makeTranslatableTab($language, $components): Tabs\Tab
     {
         $manipulatedComponents = [];
 
@@ -53,13 +53,11 @@ class FilamentTabTranslatable
 
             $manipulatedComponents[] = $manipulatedItem;
 
-            $tab_name = '';
-
-            if (config('filament-tab-translatable.tabs-type') == 'name') {
-                $tab_name = Helpers\Helper::getLangName($language);
-            } else {
-                $tab_name = Str::upper($language);
-            }
+            $tab_name = match (config('filament-tab-translatable.tab-type')) {
+                'name' => Helpers\Helper::getLangName($language),
+                'code' => Str::upper($language),
+                default => Str::upper($language),
+            };
         }
 
         return Tabs\Tab::make($tab_name)
@@ -74,14 +72,14 @@ class FilamentTabTranslatable
         return $this;
     }
 
-    public function getUntranslatableTabs($components): array
+    protected function getUntranslatableTabs($components): array
     {
         $tabs[] = $this->makeUntranslatableTab($components);
 
         return $tabs;
     }
 
-    public static function makeUntranslatableTab($components)
+    protected function makeUntranslatableTab($components)
     {
         $manipulatedComponents = [];
 

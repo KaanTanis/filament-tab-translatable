@@ -39,7 +39,7 @@ return [
 
     'laravellocalization' => false, // if you use mcamara/laravel-localization package
 
-    'tabs-type' => 'code', // code or name (code: tr, en, name: Türkçe, English) default: code
+    'tab-type' => 'code', // code or name (code: tr, en, name: Türkçe, English) default: code
 
     'list' => [
         'tr' => [
@@ -65,7 +65,7 @@ return [
 
 ```php
 FilamentTabTranslatable::make()
-    ->general([
+    ->untranslatable([
         TextInput::make('category')
             ->required(),
         FileUpload::make('image')
@@ -73,7 +73,7 @@ FilamentTabTranslatable::make()
             ->directory('posts')
             ->required(),
     ])
-    ->translations([
+    ->translatable([
         TextInput::make('title')
             ->required(),
         TextInput::make('slug')
@@ -84,7 +84,7 @@ FilamentTabTranslatable::make()
     ->render() // columnName for nested, not required if you want to use same key
 
 // IMPORTANT: render() method is required for render the component
-// general() method is for non-translated columns
+// untranslatable() method is for non-translated columns
 // IMPORTANT: Make sure field type is json in database 
 // The second parameter 'columnName' is only for translated columns. Not required if the column name is the same as the key.
 ```
