@@ -15,7 +15,7 @@ class FilamentTabTranslatable
 
     public static function make()
     {
-        return (new static);
+        return new static;
     }
 
     /** Translatable fields */
