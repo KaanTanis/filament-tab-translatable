@@ -27,7 +27,7 @@ class FilamentTabTranslatableServiceProvider extends PackageServiceProvider
             });
 
         $package->hasTranslations();
-        
+
         $configFileName = $package->shortName();
 
         if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
