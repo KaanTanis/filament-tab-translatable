@@ -8,7 +8,9 @@ use Illuminate\Support\Str;
 class FilamentTabTranslatable
 {
     protected ?string $column = null;
+
     protected ?array $translatableTabs = [];
+
     protected ?array $untranslatableTabs = [];
 
     public static function make()
@@ -20,6 +22,7 @@ class FilamentTabTranslatable
     {
         $this->column = $column ? $column . '.' : $column;
         $this->translatableTabs = $this->getTranslatableTabs($components);
+
         return $this;
     }
 
@@ -63,12 +66,14 @@ class FilamentTabTranslatable
     public function untranslatable(array $components)
     {
         $this->untranslatableTabs = $this->getUntranslatableTabs($components);
+
         return $this;
     }
 
     protected function getUntranslatableTabs($components): array
     {
         $tabs[] = $this->makeUntranslatableTab($components);
+
         return $tabs;
     }
 
@@ -82,7 +87,7 @@ class FilamentTabTranslatable
                 ->label($item->getLabel())
                 ->statePath($item->getName());
 
-            $manipulatedComponents[] = $manipulatedItem;   
+            $manipulatedComponents[] = $manipulatedItem;
         }
 
         $tab_name = __('tab_translatable.untranslatable');
