@@ -8,7 +8,9 @@ trait HasTranslations
 {
     public function __construct()
     {
-        $this->casts = array_merge($this->casts, collect($this->translatable)->mapWithKeys(fn ($item) => [$item => 'json'])->toArray());
+        $this->casts = array_merge($this->casts, collect($this->translatable)
+            ->mapWithKeys(fn ($item) => [$item => 'json'])
+            ->toArray());
 
         parent::__construct(...func_get_args());
     }

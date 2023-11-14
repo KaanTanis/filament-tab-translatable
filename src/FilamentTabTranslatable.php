@@ -8,30 +8,24 @@ use Illuminate\Support\Str;
 class FilamentTabTranslatable
 {
     protected ?string $column = null;
-
     protected ?array $translatableTabs = [];
-
     protected ?array $untranslatableTabs = [];
 
     public static function make()
     {
-        return new static;
+        return new self;
     }
 
-    /** Translatable fields */
     public function translatable(array $components, string $column = null)
     {
         $this->column = $column ? $column . '.' : $column;
-
         $this->translatableTabs = $this->getTranslatableTabs($components);
-
         return $this;
     }
 
     protected function getTranslatableTabs($components): array
     {
         $languages = Helpers\Helper::getLangCodes();
-
         $tabs = [];
 
         foreach ($languages as $language) {
@@ -52,30 +46,29 @@ class FilamentTabTranslatable
                 ->statePath($this->column . $item->getName() . '.' . $language);
 
             $manipulatedComponents[] = $manipulatedItem;
-
-            $tab_name = match (config('filament-tab-translatable.tab-type')) {
-                'name' => Helpers\Helper::getLangName($language),
-                'code' => Str::upper($language),
-                default => Str::upper($language),
-            };
         }
 
-        return Tabs\Tab::make($tab_name)
+        return Tabs\Tab::make($this->getTabName($language))
             ->schema($manipulatedComponents);
     }
 
-    /** Untranslatable fields */
+    protected function getTabName($language): string
+    {
+        return match (config('filament-tab-translatable.tab-type')) {
+            'name' => Helpers\Helper::getLangName($language),
+            default => Str::upper($language),
+        };
+    }
+
     public function untranslatable(array $components)
     {
         $this->untranslatableTabs = $this->getUntranslatableTabs($components);
-
         return $this;
     }
 
     protected function getUntranslatableTabs($components): array
     {
         $tabs[] = $this->makeUntranslatableTab($components);
-
         return $tabs;
     }
 
@@ -89,10 +82,10 @@ class FilamentTabTranslatable
                 ->label($item->getLabel())
                 ->statePath($item->getName());
 
-            $manipulatedComponents[] = $manipulatedItem;
-
-            $tab_name = __('tab_translatable.untranslatable');
+            $manipulatedComponents[] = $manipulatedItem;   
         }
+
+        $tab_name = __('tab_translatable.untranslatable');
 
         return Tabs\Tab::make($tab_name)
             ->schema($manipulatedComponents);
