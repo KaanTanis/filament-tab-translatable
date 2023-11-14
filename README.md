@@ -81,7 +81,7 @@ FilamentTabTranslatable::make()
         Textarea::make('body')
             ->required(),
     ], 'columnName')
-    ->render() // columnName for nested, not required if you want to use same key
+    ->render() // columnName for nested, not required if you want to use same key (columnName->anotherColumnName)
 
 // IMPORTANT: render() method is required for render the component
 // untranslatable() method is for non-translated columns
@@ -109,12 +109,11 @@ class Post extends Model
 
 ```php
 
-// You can use it like normal attributes in your blade files
-
+// You can call directly
 $post->title; // returns title of app()->getLocale() language
+// IMPORTANT: Not working with nested json fields. Don't forget to define columns for public $translatable = [...]
 
 // if you want to get specific language
-
 $post->translate('columnName.title', 'en'); // returns title of en language
 $post->translate('columnName.title', 'tr'); // returns title of tr language
 $post->translate('columnName.title'); // returns title of app()->getLocale() language
@@ -150,7 +149,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Kaan](https://github.com/KaanTanis)
+- [KaanTanis](https://github.com/KaanTanis)
+- [afsakar](https://github.com/afsakar)
 - [All Contributors](../../contributors)
 
 ## License

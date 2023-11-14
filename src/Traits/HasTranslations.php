@@ -59,10 +59,10 @@ trait HasTranslations
 
     private function getValueForLanguage($value, $lang)
     {
-        $fallbackLang = config('app.locale');
-        $valueForLang = $value[$lang] ?? null;
-        $valueForFallbackLang = $value[$fallbackLang] ?? null;
-
-        return $valueForLang ?? $valueForFallbackLang;
+        // @fixme
+        return $value[$lang]
+            ?? $value[config('app.locale')]
+            ?? $value[config('app.fallback_locale')]
+            ?? null;
     }
 }
