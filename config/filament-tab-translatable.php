@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'default' => 'en', // for first tab
+    'default' => 'tr', // for first tab
 
     'laravellocalization' => false, // if you use mcamara/laravel-localization package
 
-    'tab-type' => 'name', // code or name
+    'tab-type' => 'code', // code or name
 
     'list' => [
         'tr' => [

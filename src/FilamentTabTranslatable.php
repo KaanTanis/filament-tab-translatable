@@ -13,12 +13,12 @@ class FilamentTabTranslatable
 
     protected ?array $untranslatableTabs = [];
 
-    public static function make()
+    public static function make(): FilamentTabTranslatable
     {
         return new self;
     }
 
-    public function translatable(array $components, string $column = null)
+    public function translatable(array $components, string $column = null): static
     {
         $this->column = $column ? $column . '.' : $column;
         $this->translatableTabs = $this->getTranslatableTabs($components);
@@ -63,8 +63,9 @@ class FilamentTabTranslatable
         };
     }
 
-    public function untranslatable(array $components)
+    public function untranslatable(array $components, string $column = null): static
     {
+        $this->column = $column ? $column . '.' : $column;
         $this->untranslatableTabs = $this->getUntranslatableTabs($components);
 
         return $this;
@@ -83,9 +84,9 @@ class FilamentTabTranslatable
 
         foreach ($components as $item) {
             $manipulatedItem = clone $item;
-            $manipulatedItem->name($item->getName())
+            $manipulatedItem->name($this->column . $item->getName())
                 ->label($item->getLabel())
-                ->statePath($item->getName());
+                ->statePath($this->column . $item->getName());
 
             $manipulatedComponents[] = $manipulatedItem;
         }
@@ -96,9 +97,10 @@ class FilamentTabTranslatable
             ->schema($manipulatedComponents);
     }
 
-    public function render(): Tabs
+    public function render($contained = true): Tabs
     {
         return Tabs::make('tabs')
+            ->contained($contained)
             ->schema(array_merge($this->untranslatableTabs, $this->translatableTabs));
     }
 }

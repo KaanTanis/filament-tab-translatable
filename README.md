@@ -88,6 +88,11 @@ FilamentTabTranslatable::make()
 // IMPORTANT: Make sure field type is json in database 
 // The second parameter 'columnName' is only for translated columns. Not required if the column name is the same as the key.
 ```
+### Render type
+```php
+    ->render(:contained: false) // default true
+// More details: https://filamentphp.com/docs/3.x/infolists/layout/tabs#removing-the-styled-container
+````
 
 ## Example
 
