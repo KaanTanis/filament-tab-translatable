@@ -9,7 +9,7 @@ class FilamentTabTranslatableMiddleware
 {
     public function handle($request, Closure $next)
     {
-        if(! $request->user()) {
+        if (! $request->user()) {
             return $next($request);
         }
 
@@ -18,7 +18,7 @@ class FilamentTabTranslatableMiddleware
             return $next($request);
         } elseif (in_array(request()->segment(1), $supported_languages)) {
             $request->merge([
-                'locale' => request()->segment(1)
+                'locale' => request()->segment(1),
             ]);
 
             return $next($request);

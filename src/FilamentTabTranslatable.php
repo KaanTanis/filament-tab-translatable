@@ -112,15 +112,15 @@ class FilamentTabTranslatable
         return $this->isSupported($locale);
     }
 
-    protected function getForcedLocale() 
+    protected function getForcedLocale()
     {
         return config('filament-tab-translatable.default');
     }
 
-    protected function isSupported($locale) 
+    protected function isSupported($locale)
     {
         return in_array($locale, Helpers\Helper::getLangCodes(reorder: false))
             ? $locale
-            : null ;
+            : null;
     }
 }
