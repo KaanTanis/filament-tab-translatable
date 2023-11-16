@@ -21,13 +21,13 @@ class Helper
                 ]];
             })->toArray();
         } else {
-            $langs = config('filament-tab-translatable.list');
+            $langs = config('filament-tab-translatable.languages');
         }
 
         return $langs;
     }
 
-    public static function getLangCodes(): array
+    public static function getLangCodes($reorder = true): array
     {
         $langs = self::getLangs();
 
@@ -41,6 +41,9 @@ class Helper
             $array = config('laravellocalization.localesOrder');
         }
 
+        if (! $reorder) {
+            return $array;
+        }
         // reorder array by default lang
         $defaultLang = self::defaultLang();
         $defaultLangIndex = array_search($defaultLang, $array);
@@ -52,7 +55,9 @@ class Helper
 
     public static function defaultLang()
     {
-        return config('filament-tab-translatable.default');
+        return in_array(config('filament-tab-translatable.default'), self::getLangCodes(reorder: false))
+            ? config('filament-tab-translatable.default')
+            : throw new \Exception('Default language not found in config/filament-tab-translatable.php');
     }
 
     public static function getLangName($lang)

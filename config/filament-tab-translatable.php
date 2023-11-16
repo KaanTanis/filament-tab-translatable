@@ -7,7 +7,7 @@ return [
 
     'tab-type' => 'code', // code or name
 
-    'list' => [
+    'languages' => [
         'tr' => [
             'name' => 'Turkish',
             'native_name' => 'Türkçe',
@@ -22,6 +22,14 @@ return [
             'code_upper' => 'EN',
             'code_lower' => 'en',
             'flag' => 'gb',
+        ],
+
+        'it' => [
+            'name' => 'Italian',
+            'native_name' => 'Italiano',
+            'code_upper' => 'IT',
+            'code_lower' => 'it',
+            'flag' => 'it',
         ],
     ],
 ];

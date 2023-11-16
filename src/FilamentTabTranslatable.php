@@ -103,4 +103,24 @@ class FilamentTabTranslatable
             ->contained($contained)
             ->schema(array_merge($this->untranslatableTabs, $this->translatableTabs));
     }
+
+    // todo: this methods will be used in future. Create another class for this methods
+    public function setLocale($locale = null)
+    {
+        $locale = request()->segment(1);
+
+        return $this->isSupported($locale);
+    }
+
+    protected function getForcedLocale() 
+    {
+        return config('filament-tab-translatable.default');
+    }
+
+    protected function isSupported($locale) 
+    {
+        return in_array($locale, Helpers\Helper::getLangCodes(reorder: false))
+            ? $locale
+            : null ;
+    }
 }
