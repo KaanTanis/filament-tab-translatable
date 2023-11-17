@@ -2,6 +2,7 @@
 
 namespace KaanTanis\FilamentTabTranslatable\Helpers;
 
+use Exception;
 use Illuminate\Support\Str;
 
 class Helper
@@ -21,12 +22,16 @@ class Helper
                 ]];
             })->toArray();
         } else {
+            // if config is not published, maybe error @fixme
             $langs = config('filament-tab-translatable.languages');
         }
 
         return $langs;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getLangCodes($reorder = true): array
     {
         $langs = self::getLangs();
@@ -53,11 +58,14 @@ class Helper
         return $array;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function defaultLang()
     {
         return in_array(config('filament-tab-translatable.default'), self::getLangCodes(reorder: false))
             ? config('filament-tab-translatable.default')
-            : throw new \Exception('Default language not found in config/filament-tab-translatable.php');
+            : throw new Exception('Default language not found in config/filament-tab-translatable.php');
     }
 
     public static function getLangName($lang)
