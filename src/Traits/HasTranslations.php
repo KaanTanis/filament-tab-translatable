@@ -15,6 +15,9 @@ trait HasTranslations
         parent::__construct(...func_get_args());
     }
 
+    /**
+     * @throws Exception
+     */
     public function getAttributeValue($key): mixed
     {
         if (! $this->isTranslatableAttribute($key)) {
@@ -31,9 +34,7 @@ trait HasTranslations
 
     public function getTranslatableAttributes(): array
     {
-        return is_array($this->translatable)
-            ? $this->translatable
-            : [];
+        return $this->translatable ?? [];
     }
 
     /**
@@ -50,9 +51,33 @@ trait HasTranslations
         }
     }
 
+    /**
+     * @throws Exception
+     */
+    public function tt()
+    {
+        return $this->translate(...func_get_args());
+    }
+
     private function getValueByKey($key, $lang)
     {
         $lang = $lang ?? app()->getLocale();
+
+        if (str_contains($key, '.')) {
+            $keys = explode('.', $key);
+
+            $value = json_decode($this->attributes[$keys[0]], true);
+
+            foreach (array_slice($keys, 1) as $nestedKey) {
+                if (is_array($value) && array_key_exists($nestedKey, $value)) {
+                    $value = $value[$nestedKey];
+                } else {
+                    return null;
+                }
+            }
+
+            return $this->getValueForLanguage($value, $lang);
+        }
 
         $value = json_decode($this->attributes[$key], true);
 

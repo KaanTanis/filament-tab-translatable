@@ -106,7 +106,7 @@ class Post extends Model
 
     protected $guarded = [];
 
-    public $translatable = ['title', 'body', 'slug'];
+    public $translatable = ['title', 'body', 'slug']; // for $model->title etc. access
 }
 
 // You ready to go
@@ -125,6 +125,9 @@ $post->translate('columnName.title'); // returns title of app()->getLocale() lan
 
 // if second parameter is not given, it returns directly by key
 $post->translate('description'); // not nested
+
+// or shortly
+$post->tt('title');
 ```
 
 # Developer notes
@@ -133,6 +136,11 @@ most likely has some issues. I will continue to develop this package and make
 it better, and during this process, my friends who would like to support 
 the development of this package can contribute without hesitation. 
 Filament needs a package like this. Thank you.
+
+# What need?
+- [ ] Tests
+- [ ] Better documentation
+- [ ] Access to nested json fields with attribute. Eg. $post->fields->title or $post->fields['title]
 
 ## Testing
 
